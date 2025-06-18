@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CountryListView: View {
     @State private var viewModel = CountryListViewModel()
-    @State var searchText: String = ""
 
     var body: some View {
         NavigationStack {
@@ -19,9 +18,20 @@ struct CountryListView: View {
             .listStyle(.plain)
             .navigationTitle("Search")
             .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Search")
+            .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
             .onAppear {
-                viewModel.loadCountries()
+                if viewModel.countryList.isEmpty {
+                    viewModel.loadCountries()
+                }
+            }
+            .onChange(of: viewModel.searchText) { oldValue, newValue in
+                if newValue.count > 1 {
+                    viewModel.search(by: newValue)
+                }
+
+                if newValue.isEmpty {
+                    viewModel.loadCountries()
+                }
             }
         }
     }

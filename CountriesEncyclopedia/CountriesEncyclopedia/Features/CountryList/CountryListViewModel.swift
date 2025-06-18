@@ -7,6 +7,7 @@ final class CountryListViewModel {
 
     var countryList: [CountryEntity] = []
     var favorites: Set<String> = []
+    var searchText: String = ""
 
     func toogleFavorite(_ country: CountryEntity) {
         if favorites.contains(country.name) {
@@ -18,6 +19,16 @@ final class CountryListViewModel {
 
     func isFavorite(_ country: CountryEntity) -> Bool {
         favorites.contains(country.name)
+    }
+
+    func search(by name: String) {
+        Task {
+            do {
+                countryList = try await repository.fetchCountries(by: name)
+            } catch {
+                debugPrint(error)
+            }
+        }
     }
 
     func loadCountries() {

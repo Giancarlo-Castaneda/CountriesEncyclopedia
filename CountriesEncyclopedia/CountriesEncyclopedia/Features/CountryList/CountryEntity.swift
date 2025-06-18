@@ -17,15 +17,19 @@ struct CountryEntity: Identifiable {
     }
 
     var flagURL: URL? {
-        URL(string: countryDTO.flags.png)
+        URL(string: countryDTO.flags.png ?? "")
     }
 
     var flagAltText: String {
-        countryDTO.flags.alt
+        countryDTO.flags.alt ?? ""
     }
 
     var capital: String {
         countryDTO.capital.first ?? ""
+    }
+
+    var formattedTimezones: String {
+        countryDTO.timezones?.compactMap{ $0 }.joined(separator: "\n") ?? ""
     }
 
     // MARK: - Private Properties
