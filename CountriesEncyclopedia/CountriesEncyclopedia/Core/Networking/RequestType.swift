@@ -9,13 +9,16 @@ public protocol RequestType {
     var body: [String: Any]? { get }
     var queryItems: [URLQueryItem]? { get }
     var port: Int? { get }
+    var version: String { get }
 }
 
 public extension RequestType {
 
     var scheme: String { "https" }
 
-    var host: String { "restcountries.com/v3.1/" }
+    var host: String { "restcountries.com" }
+
+    var version: String { "/v3.1" }
 
     var headers: [String: String] {
         ["Content-Type": "application/json"]

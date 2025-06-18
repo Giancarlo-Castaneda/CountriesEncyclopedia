@@ -15,7 +15,7 @@ final class ConcreteRequestBuilder: RequestBuilding {
         urlComponents.scheme     = endpoint.scheme
         urlComponents.host       = endpoint.host
         urlComponents.port       = endpoint.port
-        urlComponents.path       = endpoint.path
+        urlComponents.path       = endpoint.version + endpoint.path
         urlComponents.queryItems = endpoint.queryItems
 
         guard

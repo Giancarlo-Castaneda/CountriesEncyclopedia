@@ -25,7 +25,7 @@ struct CountriesEncyclopediaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CountryListView()
         }
         .modelContainer(sharedModelContainer)
     }
