@@ -1,4 +1,5 @@
 import SwiftUI
+import NukeUI
 
 struct CountryRow: View {
 
@@ -8,11 +9,28 @@ struct CountryRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
-            Image(systemName: "flag")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 90, height: 70)
-                .accessibilityLabel(country.flagAltText)
+            LazyImage(url: country.flagURL) { state in
+                if let image = state.image {
+                    image.resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 90, height: 70)
+                        .accessibilityLabel(country.flagAltText)
+                } else if state.error != nil {
+                    Image(systemName: "flag")
+                        .imageScale(.medium)
+                        .frame(width: 90, height: 70)
+                } else {
+                    ZStack {
+                        Rectangle()
+                            .fill(.secondary)
+                            .frame(width: 90, height: 70)
+
+                        ProgressView()
+                            .tint(.white)
+                    }
+                }
+            }
+
             VStack(alignment: .leading) {
                 Text(country.name)
                     .font(.headline)

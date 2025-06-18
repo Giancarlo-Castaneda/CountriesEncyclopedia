@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AB0B799F2E025E96000E8B7E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = AB0B799E2E025E96000E8B7E /* Nuke */; };
+		AB0B79A22E025EC6000E8B7E /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = AB0B79A12E025EC6000E8B7E /* NukeUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AB0B78002E022915000E8B7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB0B799F2E025E96000E8B7E /* Nuke in Frameworks */,
+				AB0B79A22E025EC6000E8B7E /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,7 @@
 				AB0B77F22E022913000E8B7E /* CountriesEncyclopedia */,
 				AB0B78022E022915000E8B7E /* CountriesEncyclopediaTests */,
 				AB0B780C2E022915000E8B7E /* CountriesEncyclopediaUITests */,
+				AB0B79A02E025EC6000E8B7E /* Frameworks */,
 				AB0B77F12E022913000E8B7E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +98,13 @@
 				AB0B78092E022915000E8B7E /* CountriesEncyclopediaUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB0B79A02E025EC6000E8B7E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +127,8 @@
 			);
 			name = CountriesEncyclopedia;
 			packageProductDependencies = (
+				AB0B799E2E025E96000E8B7E /* Nuke */,
+				AB0B79A12E025EC6000E8B7E /* NukeUI */,
 			);
 			productName = CountriesEncyclopedia;
 			productReference = AB0B77F02E022913000E8B7E /* CountriesEncyclopedia.app */;
@@ -195,6 +212,9 @@
 			);
 			mainGroup = AB0B77E72E022913000E8B7E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AB0B799D2E025E96000E8B7E /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AB0B77F12E022913000E8B7E /* Products */;
 			projectDirPath = "";
@@ -558,6 +578,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AB0B799D2E025E96000E8B7E /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = exactVersion;
+				version = 12.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB0B799E2E025E96000E8B7E /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB0B799D2E025E96000E8B7E /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		AB0B79A12E025EC6000E8B7E /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB0B799D2E025E96000E8B7E /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AB0B77E82E022913000E8B7E /* Project object */;
 }
