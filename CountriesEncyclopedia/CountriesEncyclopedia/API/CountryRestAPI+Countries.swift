@@ -3,7 +3,7 @@ import Foundation
 extension CountryRestAPI {
 
     static func countryListGET() -> CountryRestAPI {
-        let query = [URLQueryItem(name: "fields", value: "name,flags,capital")]
+        let query = [URLQueryItem(name: "fields", value: "name,flags,capital,region,subregion,currencies,population,languages,coatOfArms,timezones")]
 
         return .init(path: "/all", method: .get, body: nil, queryItems: query)
     }

@@ -3,28 +3,43 @@ import SwiftUI
 @Observable
 final class CountryListViewModel {
 
-    private let repository = ConcreteCountryRepository(networkingProvider: networkingProvider)
+    // MARK: - Private Properties
+
+    private let dependencies: RootContainerProtocol
+
+    // MARK: - Internal Properties
 
     var countryList: [CountryEntity] = []
-    var favorites: Set<String> = []
     var searchText: String = ""
+    var routing: NavigationPath = NavigationPath()
+
+    // MARK: - Initialization
+
+    init(dependencies: RootContainerProtocol) {
+        self.dependencies = dependencies
+    }
+
+    // MARK: - Internal Methods
 
     func toogleFavorite(_ country: CountryEntity) {
-        if favorites.contains(country.name) {
-            favorites.remove(country.name)
+        if dependencies.countryLocalRepository.isStored(country: country) {
+            dependencies.countryLocalRepository.removeCountry(country)
         } else {
-            favorites.insert(country.name)
+            dependencies.countryLocalRepository.addCountry(country)
+        }
+        if let index = countryList.firstIndex(of: country) {
+            countryList[index].isSaved.toggle()
         }
     }
 
     func isFavorite(_ country: CountryEntity) -> Bool {
-        favorites.contains(country.name)
+        dependencies.countryLocalRepository.isStored(country: country)
     }
 
     func search(by name: String) {
         Task {
             do {
-                countryList = try await repository.fetchCountries(by: name)
+                countryList = try await dependencies.countryRepository.fetchCountries(by: name)
             } catch {
                 debugPrint(error)
             }
@@ -34,7 +49,7 @@ final class CountryListViewModel {
     func loadCountries() {
         Task {
             do {
-                countryList = try await repository.fetchCountries()
+                countryList = try await dependencies.countryRepository.fetchCountries()
             } catch {
                 debugPrint(error)
             }

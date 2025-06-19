@@ -10,23 +10,14 @@ import SwiftData
 
 @main
 struct CountriesEncyclopediaApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    private let rootDependecies: RootContainerProtocol = RootDependencies()
 
     var body: some Scene {
         WindowGroup {
-            CountryListView()
+            CountryListView(viewModel: CountryListViewModel(dependencies: rootDependecies))
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(rootDependecies.localStore.modelContainer)
+        .modelContext(rootDependecies.localStore.modelContext)
     }
 }

@@ -1,17 +1,20 @@
 import SwiftUI
 
 struct CountryListView: View {
-    @State private var viewModel = CountryListViewModel()
+    @State var viewModel: CountryListViewModel
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $viewModel.routing) {
             List {
                 ForEach(viewModel.countryList) { country in
                     CountryRow(
                         country: country,
                         isFavorite: viewModel.isFavorite(country),
-                        onToggleFavorite: { viewModel.toogleFavorite(country) }
+                        onToggleFavorite: { viewModel.toogleFavorite(country) },
+                        onRowSelection: { selectedCountry in viewModel.routing.append(selectedCountry) }
                     )
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 }
             }
             .scrollIndicators(.hidden)
@@ -19,6 +22,9 @@ struct CountryListView: View {
             .navigationTitle("Search")
             .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
+            .navigationDestination(for: CountryEntity.self) { selectedCountry in
+                CountryDetailView(country: selectedCountry)
+            }
             .onAppear {
                 if viewModel.countryList.isEmpty {
                     viewModel.loadCountries()
@@ -38,5 +44,6 @@ struct CountryListView: View {
 }
 
 #Preview {
-    CountryListView()
+    let dependencies = RootDependencies()
+    CountryListView(viewModel: CountryListViewModel(dependencies: dependencies))
 }

@@ -53,14 +53,3 @@ final class ConcreteNetworkingProvider: NetworkingProvider {
         return try jsonDecoder.decode(T.self, from: data)
     }
 }
-
-let jsonDecoder: JSONDecoder = {
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    decoder.dateDecodingStrategy = .iso8601
-    return decoder
-}()
-
-let networkingProvider: NetworkingProvider = {
-    ConcreteNetworkingProvider(jsonDecoder: jsonDecoder)
-}()

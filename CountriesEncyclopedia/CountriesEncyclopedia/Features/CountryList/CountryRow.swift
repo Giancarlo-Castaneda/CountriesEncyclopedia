@@ -6,47 +6,57 @@ struct CountryRow: View {
     let country: CountryEntity
     let isFavorite: Bool
     let onToggleFavorite: () -> Void
+    let onRowSelection: (CountryEntity) -> Void
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            LazyImage(url: country.flagURL) { state in
-                if let image = state.image {
-                    image.resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 90, height: 70)
-                        .accessibilityLabel(country.flagAltText)
-                } else if state.error != nil {
-                    Image(systemName: "flag")
-                        .imageScale(.medium)
-                        .frame(width: 90, height: 70)
-                } else {
-                    ZStack {
-                        Rectangle()
-                            .fill(.secondary)
+        Button {
+            onRowSelection(country)
+        } label: {
+            HStack(alignment: .top, spacing: 10) {
+                LazyImage(url: country.flagURL) { state in
+                    if let image = state.image {
+                        image.resizable()
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: 90, height: 70)
+                            .accessibilityLabel(country.flagAltText)
+                    } else if state.error != nil {
+                        Image(systemName: "flag")
+                            .imageScale(.medium)
+                            .frame(width: 90, height: 70)
+                    } else {
+                        ZStack {
+                            Rectangle()
+                                .fill(.secondary)
+                                .frame(width: 90, height: 70)
 
-                        ProgressView()
-                            .tint(.white)
+                            ProgressView()
+                                .tint(.white)
+                        }
                     }
                 }
-            }
 
-            VStack(alignment: .leading) {
-                Text(country.name)
-                    .font(.headline)
-                Text(country.officialName)
-                    .font(.subheadline)
-                Text(country.capital)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                VStack(alignment: .leading) {
+                    Text(country.name)
+                        .font(.headline)
+                    Text(country.officialName)
+                        .font(.subheadline)
+                    Text(country.capital)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button(action: onToggleFavorite) {
+                    Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25, height: 25)
+                        .foregroundStyle(Color.accentColor)
+                }
+                .buttonStyle(.plain)
             }
-            Spacer()
-            Button(action: onToggleFavorite) {
-                Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
-            }
+            .contentShape(Rectangle())
         }
-        .listRowSeparator(.hidden)
-        .listRowBackground(Color.clear)
+        .buttonStyle(.plain)
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -54,4 +64,8 @@ struct CountryRow: View {
                 .shadow(color: Color.secondary.opacity(0.3), radius: 4, x: 2, y: 4)
         )
     }
+}
+
+#Preview {
+    CountryRow(country: .mock, isFavorite: true, onToggleFavorite: {}, onRowSelection: {_ in})
 }
