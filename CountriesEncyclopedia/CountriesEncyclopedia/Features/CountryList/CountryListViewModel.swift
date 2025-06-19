@@ -23,7 +23,7 @@ final class CountryListViewModel {
 
     fileprivate func refreshFavorite(_ country: CountryEntity) {
         if let index = countryList.firstIndex(of: country) {
-            countryList[index].isSaved.toggle()
+            countryList[index].isFavorite.toggle()
         }
     }
     

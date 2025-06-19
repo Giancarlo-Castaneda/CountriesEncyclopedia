@@ -1,16 +1,26 @@
 import SwiftUI
 import NukeUI
 
+protocol CountryRowData {
+
+    var name: String { get }
+    var officialName: String { get }
+    var capital: String { get }
+    var flagURL: URL? { get }
+    var flagAltText: String { get }
+    var isFavorite: Bool { get }
+}
+
 struct CountryRow: View {
 
-    let country: CountryEntity
+    let country: CountryRowData
     let isFavorite: Bool
     let onToggleFavorite: () -> Void
-    let onRowSelection: (CountryEntity) -> Void
+    let onRowSelection: () -> Void
 
     var body: some View {
         Button {
-            onRowSelection(country)
+            onRowSelection()
         } label: {
             HStack(alignment: .top, spacing: 10) {
                 LazyImage(url: country.flagURL) { state in
@@ -67,5 +77,5 @@ struct CountryRow: View {
 }
 
 #Preview {
-    CountryRow(country: .mock, isFavorite: true, onToggleFavorite: {}, onRowSelection: {_ in})
+    CountryRow(country: CountryEntity.mock, isFavorite: true, onToggleFavorite: {}, onRowSelection: {})
 }

@@ -113,7 +113,7 @@ struct CountryDetailView: View {
             Button {
                 viewModel.toogleFavorite()
             } label: {
-                Image(systemName: viewModel.country.isSaved ? "bookmark.fill" : "bookmark")
+                Image(systemName: viewModel.country.isFavorite ? "bookmark.fill" : "bookmark")
             }
         }
     }

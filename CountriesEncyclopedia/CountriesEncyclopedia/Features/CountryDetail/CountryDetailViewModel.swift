@@ -22,7 +22,7 @@ final class CountryDetailViewModel {
     // MARK: - Methods
 
     fileprivate func isCountryFavorited() {
-        country.isSaved = dependencies.countryLocalRepository.isStored(country: country)
+        country.isFavorite = dependencies.countryLocalRepository.isStored(country: country)
     }
     
     func toogleFavorite() {

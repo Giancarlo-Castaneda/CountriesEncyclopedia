@@ -60,7 +60,7 @@ struct CountryEntity: Identifiable, Hashable {
         countryDTO.car?.side == "left"
     }
 
-    var isSaved = false
+    var isFavorite = false
 
     // MARK: - Private Properties
 
@@ -72,6 +72,8 @@ struct CountryEntity: Identifiable, Hashable {
         self.countryDTO = dto
     }
 }
+
+extension CountryEntity: CountryRowData { }
 
 extension CountryEntity {
     static let mock: CountryEntity = .init(.mock)

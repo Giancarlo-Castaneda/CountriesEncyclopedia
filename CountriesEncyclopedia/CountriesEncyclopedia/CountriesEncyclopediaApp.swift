@@ -15,7 +15,18 @@ struct CountriesEncyclopediaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CountryListView(viewModel: CountryListViewModel(dependencies: rootDependecies))
+            TabView {
+                Tab {
+                    CountryListView(viewModel: CountryListViewModel(dependencies: rootDependecies))
+                } label: {
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+                Tab {
+                    FavoriteListView(viewModel: FavoriteListViewModel(dependencies: rootDependecies))
+                } label: {
+                    Label("Saved", systemImage: "star")
+                }
+            }
         }
         .modelContainer(rootDependecies.localStore.modelContainer)
         .modelContext(rootDependecies.localStore.modelContext)

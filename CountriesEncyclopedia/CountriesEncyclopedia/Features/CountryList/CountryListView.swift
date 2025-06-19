@@ -11,7 +11,7 @@ struct CountryListView: View {
                         country: country,
                         isFavorite: viewModel.isFavorite(country),
                         onToggleFavorite: { viewModel.toogleFavorite(country) },
-                        onRowSelection: { selectedCountry in viewModel.routing.append(selectedCountry) }
+                        onRowSelection: { viewModel.routing.append(country) }
                     )
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)

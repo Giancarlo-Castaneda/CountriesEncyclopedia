@@ -5,8 +5,8 @@ protocol CountryLocalRepository {
 
     func fetchStoredCountries() -> [FavoriteCountry]
     func addCountry(_ country: CountryEntity)
-    func removeCountry(_ country: CountryEntity)
-    func isStored(country: CountryEntity) -> Bool
+    func removeCountry(_ country: CountryRowData)
+    func isStored(country: CountryRowData) -> Bool
 }
 
 struct ConcreteCountryLocalRepository: CountryLocalRepository {
@@ -35,18 +35,19 @@ struct ConcreteCountryLocalRepository: CountryLocalRepository {
         let favoriteCountry = FavoriteCountry(commonName: country.name,
                                               officialName: country.officialName,
                                               capital: country.capital,
-                                              flagUrl: country.flagURL)
+                                              flagUrl: country.flagURL,
+                                              flagAltText: country.flagAltText)
         localStore.modelContext.insert(favoriteCountry)
         localStore.saveContext()
     }
     
-    func removeCountry(_ country: CountryEntity) {
+    func removeCountry(_ country: CountryRowData) {
         do {
             let nameToRemove = country.name
 
             let fetch = FetchDescriptor<FavoriteCountry>(
                 predicate: #Predicate { item in
-                    item.commonName == nameToRemove
+                    item.name == nameToRemove
                 }
             )
             let saved = try localStore.modelContext.fetch(fetch)
@@ -60,10 +61,10 @@ struct ConcreteCountryLocalRepository: CountryLocalRepository {
         }
     }
     
-    func isStored(country: CountryEntity) -> Bool {
+    func isStored(country: CountryRowData) -> Bool {
         do {
             return try localStore.modelContext.fetch(FetchDescriptor<FavoriteCountry>())
-                .contains(where: { $0.commonName == country.name })
+                .contains(where: { $0.name == country.name })
 
         } catch {
             assertionFailure(error.localizedDescription)
