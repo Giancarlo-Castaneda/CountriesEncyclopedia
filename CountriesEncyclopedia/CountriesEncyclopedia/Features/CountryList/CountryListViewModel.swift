@@ -21,15 +21,19 @@ final class CountryListViewModel {
 
     // MARK: - Internal Methods
 
+    fileprivate func refreshFavorite(_ country: CountryEntity) {
+        if let index = countryList.firstIndex(of: country) {
+            countryList[index].isSaved.toggle()
+        }
+    }
+    
     func toogleFavorite(_ country: CountryEntity) {
         if dependencies.countryLocalRepository.isStored(country: country) {
             dependencies.countryLocalRepository.removeCountry(country)
         } else {
             dependencies.countryLocalRepository.addCountry(country)
         }
-        if let index = countryList.firstIndex(of: country) {
-            countryList[index].isSaved.toggle()
-        }
+        refreshFavorite(country)
     }
 
     func isFavorite(_ country: CountryEntity) -> Bool {
@@ -53,6 +57,12 @@ final class CountryListViewModel {
             } catch {
                 debugPrint(error)
             }
+        }
+    }
+
+    func makeDetailViewModel(for country: CountryEntity) -> CountryDetailViewModel {
+        CountryDetailViewModel(dependencies: dependencies, country: country) { [weak self] country in
+            self?.refreshFavorite(country)
         }
     }
 }

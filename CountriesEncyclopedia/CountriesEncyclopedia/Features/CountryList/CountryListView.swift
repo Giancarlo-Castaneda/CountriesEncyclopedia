@@ -23,7 +23,7 @@ struct CountryListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
             .navigationDestination(for: CountryEntity.self) { selectedCountry in
-                CountryDetailView(country: selectedCountry)
+                CountryDetailView(viewModel: viewModel.makeDetailViewModel(for: selectedCountry))
             }
             .onAppear {
                 if viewModel.countryList.isEmpty {

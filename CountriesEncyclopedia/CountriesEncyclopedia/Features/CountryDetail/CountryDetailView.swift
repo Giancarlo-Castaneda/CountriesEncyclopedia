@@ -7,7 +7,7 @@ struct CountryDetailView: View {
         GridItem(.flexible(), spacing: 16)
     ]
 
-    var country: CountryEntity
+    @State var viewModel: CountryDetailViewModel
 
     var body: some View {
         ScrollView {
@@ -20,10 +20,10 @@ struct CountryDetailView: View {
                                     .shadow(color: Color.secondary.opacity(0.3), radius: 4, x: 2, y: 4)
                             )
                         VStack(alignment: .center) {
-                            Text(country.name)
+                            Text(viewModel.country.name)
                                 .font(.title.bold())
 
-                            Text(country.officialName)
+                            Text(viewModel.country.officialName)
                                 .font(.body)
                                 .padding(.bottom, 10)
                         }
@@ -39,26 +39,26 @@ struct CountryDetailView: View {
 
                     VStack(alignment: .center) {
                         HStack {
-                            if !country.region.isEmpty {
+                            if !viewModel.country.region.isEmpty {
                                 InfoView(mainText: "Region",
-                                         secondaryText: country.region)
+                                         secondaryText: viewModel.country.region)
                             }
 
-                            if !country.region.isEmpty && !country.subregion.isEmpty {
+                            if !viewModel.country.region.isEmpty && !viewModel.country.subregion.isEmpty {
                                 Divider()
                             }
 
-                            if !country.subregion.isEmpty {
+                            if !viewModel.country.subregion.isEmpty {
                                 InfoView(mainText: "Subregion",
-                                         secondaryText: country.subregion)
+                                         secondaryText: viewModel.country.subregion)
                             }
 
-                            if !country.subregion.isEmpty && !country.capital.isEmpty {
+                            if !viewModel.country.subregion.isEmpty && !viewModel.country.capital.isEmpty {
                                 Divider()
                             }
 
-                            if !country.capital.isEmpty {
-                                InfoView(mainText: "Capital", secondaryText: country.capital)
+                            if !viewModel.country.capital.isEmpty {
+                                InfoView(mainText: "Capital", secondaryText: viewModel.country.capital)
                             }
                         }
                         .padding(.vertical, 10)
@@ -70,29 +70,29 @@ struct CountryDetailView: View {
 
                         LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
                             InfoCard(title: "Timezone(s)") {
-                                Text(country.formattedTimezones)
+                                Text(viewModel.country.formattedTimezones)
                             }
                             InfoCard(title: "Population") {
-                                Text(country.population, format: .number)
+                                Text(viewModel.country.population, format: .number)
                             }
                             InfoCard(title: "Language(s)") {
-                                Text(country.languages)
+                                Text(viewModel.country.languages)
                             }
                             InfoCard(title: "Currencies") {
-                                Text(country.currenciesText)
+                                Text(viewModel.country.currenciesText)
                             }
                             InfoCard(title: "Car Drive Side") {
                                 HStack(spacing: 8) {
                                     Text("LEFT")
-                                        .foregroundColor(country.isLeftSide ? .secondary : .primary)
+                                        .foregroundColor(viewModel.country.isLeftSide ? .secondary : .primary)
                                     Image(systemName: "car.circle")
                                         .imageScale(.large)
                                         .foregroundStyle(.primary)
                                     Text("RIGHT")
-                                        .foregroundColor(country.isLeftSide ? .primary : .secondary)
+                                        .foregroundColor(viewModel.country.isLeftSide ? .primary : .secondary)
                                 }
                             }
-                            if let coatURL = country.coatAtArms {
+                            if let coatURL = viewModel.country.coatAtArms {
                                 InfoCard(title: "Coat of Arms") {
                                     CoatOfArmsView(image: coatURL)
                                 }
@@ -111,14 +111,15 @@ struct CountryDetailView: View {
         .padding()
         .toolbar {
             Button {
+                viewModel.toogleFavorite()
             } label: {
-                Image(systemName: country.isSaved ? "bookmark.fill" : "bookmark")
+                Image(systemName: viewModel.country.isSaved ? "bookmark.fill" : "bookmark")
             }
         }
     }
 
     private var flagView: some View {
-        LazyImage(url: country.flagURL) { state in
+        LazyImage(url: viewModel.country.flagURL) { state in
             if let image = state.image {
                 image.resizable().aspectRatio(contentMode: .fit)
             } else if state.error != nil {
@@ -203,5 +204,5 @@ struct InfoCard<Content: View>: View {
 }
 
 #Preview {
-    CountryDetailView(country: .mock)
+    CountryDetailView(viewModel: CountryDetailViewModel(dependencies: RootDependencies(), country: .mock))
 }
