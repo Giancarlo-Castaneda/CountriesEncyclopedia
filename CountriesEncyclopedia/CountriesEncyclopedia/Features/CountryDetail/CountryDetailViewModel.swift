@@ -31,6 +31,7 @@ final class CountryDetailViewModel {
         } else {
             dependencies.countryLocalRepository.addCountry(country)
         }
+        dependencies.refreshLocalStorage()
         isCountryFavorited()
         onToogleFavorite?(country)
     }

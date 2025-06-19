@@ -25,7 +25,7 @@ struct CountryEntity: Identifiable, Hashable {
     }
 
     var capital: String {
-        countryDTO.capital.first ?? ""
+        countryDTO.capital?.compactMap{ $0 }.joined(separator: ", ") ?? ""
     }
 
     var formattedTimezones: String {

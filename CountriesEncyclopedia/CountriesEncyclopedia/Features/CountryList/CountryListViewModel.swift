@@ -22,18 +22,28 @@ final class CountryListViewModel {
     // MARK: - Internal Methods
 
     fileprivate func refreshFavorite(_ country: CountryEntity) {
-        if let index = countryList.firstIndex(of: country) {
+        if let index = countryList.firstIndex(where: { $0.name == country.name }) {
             countryList[index].isFavorite.toggle()
         }
     }
-    
+
+    private func loadFavoriteCountries() {
+        dependencies.appSession.favoriteCountries.forEach { favoriteCountry in
+            if let index = countryList.firstIndex(where: { $0.name == favoriteCountry.name }) {
+                countryList[index].isFavorite = true
+            }
+        }
+    }
+
     func toogleFavorite(_ country: CountryEntity) {
         if dependencies.countryLocalRepository.isStored(country: country) {
             dependencies.countryLocalRepository.removeCountry(country)
         } else {
             dependencies.countryLocalRepository.addCountry(country)
         }
+        dependencies.refreshLocalStorage()
         refreshFavorite(country)
+        loadFavoriteCountries()
     }
 
     func isFavorite(_ country: CountryEntity) -> Bool {
@@ -44,6 +54,7 @@ final class CountryListViewModel {
         Task {
             do {
                 countryList = try await dependencies.countryRepository.fetchCountries(by: name)
+                loadFavoriteCountries()
             } catch {
                 debugPrint(error)
             }
@@ -54,6 +65,7 @@ final class CountryListViewModel {
         Task {
             do {
                 countryList = try await dependencies.countryRepository.fetchCountries()
+                loadFavoriteCountries()
             } catch {
                 debugPrint(error)
             }

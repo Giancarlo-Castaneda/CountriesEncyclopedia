@@ -52,6 +52,7 @@ final class FavoriteListViewModel {
 
     func removeFavorite(_ country: FavoriteCountry) {
         dependencies.countryLocalRepository.removeCountry(country)
+        dependencies.refreshLocalStorage()
         fetchSavedCountries()
     }
 

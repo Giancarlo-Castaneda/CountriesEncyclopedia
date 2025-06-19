@@ -5,7 +5,7 @@ import Foundation
 struct CountryDTO: Codable, Hashable {
     let flags: Flag
     let name: CountryName
-    let capital: [String]
+    let capital: [String]?
     let region: String?
     let subregion: String?
     let languages: [String: String]?
