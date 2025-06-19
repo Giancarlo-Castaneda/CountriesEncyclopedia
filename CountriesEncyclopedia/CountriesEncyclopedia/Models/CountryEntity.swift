@@ -73,7 +73,11 @@ struct CountryEntity: Identifiable, Hashable {
     }
 }
 
+// MARK: - CountryRowData
+
 extension CountryEntity: CountryRowData { }
+
+// MARK: - Mock Data
 
 extension CountryEntity {
     static let mock: CountryEntity = .init(.mock)

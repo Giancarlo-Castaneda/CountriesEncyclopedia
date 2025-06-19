@@ -19,6 +19,8 @@ final class FavoriteCountry {
     }
 }
 
+// MARK: - CountryRowData
+
 extension FavoriteCountry: CountryRowData {
 
     var isFavorite: Bool {
