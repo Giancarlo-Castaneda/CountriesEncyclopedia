@@ -1,16 +1,6 @@
 import SwiftUI
 import NukeUI
 
-protocol CountryRowData {
-
-    var name: String { get }
-    var officialName: String { get }
-    var capital: String { get }
-    var flagURL: URL? { get }
-    var flagAltText: String { get }
-    var isFavorite: Bool { get }
-}
-
 struct CountryRow: View {
 
     let country: CountryRowData
@@ -23,28 +13,8 @@ struct CountryRow: View {
             onRowSelection()
         } label: {
             HStack(alignment: .top, spacing: 10) {
-                LazyImage(url: country.flagURL) { state in
-                    if let image = state.image {
-                        image.resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 90, height: 70)
-                            .accessibilityLabel(country.flagAltText)
-                    } else if state.error != nil {
-                        Image(systemName: "flag")
-                            .imageScale(.medium)
-                            .frame(width: 90, height: 70)
-                    } else {
-                        ZStack {
-                            Rectangle()
-                                .fill(.secondary)
-                                .frame(width: 90, height: 70)
-
-                            ProgressView()
-                                .tint(.white)
-                        }
-                    }
-                }
-
+                LazyImageView(imageURL: country.flagURL, accesibilityText: country.flagAltText)
+                    .frame(width: 90, height: 70)
                 VStack(alignment: .leading) {
                     Text(country.name)
                         .font(.headline)

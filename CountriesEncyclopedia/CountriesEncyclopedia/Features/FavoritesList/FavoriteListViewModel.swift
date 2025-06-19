@@ -18,6 +18,7 @@ final class FavoriteListViewModel {
 
     /// Filtered list, displayed by the View
     var filteredCountries: [FavoriteCountry] = []
+    var state: JobState = .empty
 
     // MARK: - Initialization
 
@@ -35,6 +36,7 @@ final class FavoriteListViewModel {
     // MARK: - Filtering
 
     private func filterCountries() {
+        state = .loading
         let term = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
             .lowercased()
         if term.isEmpty {
@@ -46,6 +48,7 @@ final class FavoriteListViewModel {
                     .contains(term)
             }
         }
+        state = filteredCountries.isEmpty ? .empty : .success
     }
 
     // MARK: - Favorites Management

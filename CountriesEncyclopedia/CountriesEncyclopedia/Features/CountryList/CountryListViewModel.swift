@@ -12,6 +12,7 @@ final class CountryListViewModel {
     var countryList: [CountryEntity] = []
     var searchText: String = ""
     var routing: NavigationPath = NavigationPath()
+    var state: JobState = .empty
 
     // MARK: - Initialization
 
@@ -19,9 +20,9 @@ final class CountryListViewModel {
         self.dependencies = dependencies
     }
 
-    // MARK: - Internal Methods
+    // MARK: - Private Methods
 
-    fileprivate func refreshFavorite(_ country: CountryEntity) {
+    private func refreshFavorite(_ country: CountryEntity) {
         if let index = countryList.firstIndex(where: { $0.name == country.name }) {
             countryList[index].isFavorite.toggle()
         }
@@ -34,6 +35,8 @@ final class CountryListViewModel {
             }
         }
     }
+
+    // MARK: - Internal Methods
 
     func toogleFavorite(_ country: CountryEntity) {
         if dependencies.countryLocalRepository.isStored(country: country) {
@@ -64,9 +67,12 @@ final class CountryListViewModel {
     func loadCountries() {
         Task {
             do {
+                state = .loading
                 countryList = try await dependencies.countryRepository.fetchCountries()
                 loadFavoriteCountries()
+                state = .success
             } catch {
+                state = .failure
                 debugPrint(error)
             }
         }

@@ -5,22 +5,47 @@ struct FavoriteListView: View {
 
     var body: some View {
         NavigationStack {
-            List(viewModel.filteredCountries) { country in
-                CountryRow(country: country,
-                           isFavorite: viewModel.isFavorite(country),
-                           onToggleFavorite: { viewModel.removeFavorite(country) },
-                           onRowSelection: {}
-                )
-                .listRowSeparator(.hidden)
-            }
-            .navigationTitle("Saved")
-            .navigationBarTitleDisplayMode(.inline)
-            .listStyle(.plain)
-            .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
-            .onAppear {
-                viewModel.fetchSavedCountries()
-            }
+            content
+                .navigationTitle("Saved")
+                .navigationBarTitleDisplayMode(.inline)
+                .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
+                .onAppear {
+                    viewModel.fetchSavedCountries()
+                }
         }
+    }
+
+    // MARK: - Private UI Components
+
+    @ViewBuilder
+    private var content: some View {
+        switch viewModel.state {
+        case .success:
+            listView
+
+        case .failure:
+            Text("There was an error loading the countries.")
+
+        case .loading:
+            ProgressView()
+
+        case .empty:
+            Text("Let's add some countries to your favorites!")
+        }
+    }
+
+    // MARK: listView
+
+    private var listView: some View {
+        List(viewModel.filteredCountries) { country in
+            CountryRow(country: country,
+                       isFavorite: viewModel.isFavorite(country),
+                       onToggleFavorite: { viewModel.removeFavorite(country) },
+                       onRowSelection: {}
+            )
+            .listRowSeparator(.hidden)
+        }
+        .listStyle(.plain)
     }
 }
 
