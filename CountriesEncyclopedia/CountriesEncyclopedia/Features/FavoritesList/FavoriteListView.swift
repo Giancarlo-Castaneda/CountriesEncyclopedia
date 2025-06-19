@@ -24,7 +24,10 @@ struct FavoriteListView: View {
             listView
 
         case .failure:
-            Text("There was an error loading the countries.")
+            ErrorView(
+                errorText: "There was an error loading the countries.",
+                onButtonTap: { viewModel.fetchSavedCountries() }
+            )
 
         case .loading:
             ProgressView()
