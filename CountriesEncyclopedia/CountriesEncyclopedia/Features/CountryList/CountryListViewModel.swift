@@ -64,17 +64,15 @@ final class CountryListViewModel {
         }
     }
 
-    func loadCountries() {
-        Task {
-            do {
-                state = .loading
-                countryList = try await dependencies.countryRepository.fetchCountries()
-                loadFavoriteCountries()
-                state = .success
-            } catch {
-                state = .failure
-                debugPrint(error)
-            }
+    func loadCountries() async {
+        do {
+            state = .loading
+            countryList = try await dependencies.countryRepository.fetchCountries()
+            loadFavoriteCountries()
+            state = .success
+        } catch {
+            state = .failure
+            debugPrint(error)
         }
     }
 

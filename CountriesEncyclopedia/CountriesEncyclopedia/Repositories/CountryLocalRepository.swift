@@ -27,7 +27,8 @@ struct ConcreteCountryLocalRepository: CountryLocalRepository {
         do {
             return try localStore.modelContext.fetch(FetchDescriptor<FavoriteCountry>())
         } catch {
-            fatalError(error.localizedDescription)
+            assertionFailure(error.localizedDescription, file: #file, line: #line)
+            return []
         }
     }
     
@@ -57,7 +58,7 @@ struct ConcreteCountryLocalRepository: CountryLocalRepository {
             
             localStore.saveContext()
         } catch {
-            assertionFailure(error.localizedDescription)
+            assertionFailure(error.localizedDescription, file: #file, line: #line)
         }
     }
     
@@ -67,7 +68,7 @@ struct ConcreteCountryLocalRepository: CountryLocalRepository {
                 .contains(where: { $0.name == country.name })
 
         } catch {
-            assertionFailure(error.localizedDescription)
+            assertionFailure(error.localizedDescription, file: #file, line: #line)
             return false
         }
     }

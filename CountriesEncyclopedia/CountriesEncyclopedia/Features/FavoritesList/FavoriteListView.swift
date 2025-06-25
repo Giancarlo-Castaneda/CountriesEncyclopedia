@@ -9,7 +9,7 @@ struct FavoriteListView: View {
                 .navigationTitle("Saved")
                 .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
-                .onAppear {
+                .task {
                     viewModel.fetchSavedCountries()
                 }
         }

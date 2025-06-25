@@ -31,7 +31,7 @@ struct LocalStore {
         do {
             try modelContext.save()
         } catch {
-            assertionFailure(error.localizedDescription)
+            assertionFailure(error.localizedDescription, file: #file, line: #line)
         }
     }
 }

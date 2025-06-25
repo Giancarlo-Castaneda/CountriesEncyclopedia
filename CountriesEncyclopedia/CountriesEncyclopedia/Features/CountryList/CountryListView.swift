@@ -3,6 +3,14 @@ import SwiftUI
 struct CountryListView: View {
     @State var viewModel: CountryListViewModel
 
+    private func fetchCountries() {
+        Task {
+            await viewModel.loadCountries()
+        }
+    }
+
+    // MARK: - Body
+
     var body: some View {
         NavigationStack(path: $viewModel.routing) {
             content
@@ -12,8 +20,8 @@ struct CountryListView: View {
                 .navigationDestination(for: CountryEntity.self) { selectedCountry in
                     CountryDetailView(viewModel: viewModel.makeDetailViewModel(for: selectedCountry))
                 }
-                .onAppear {
-                    viewModel.loadCountries()
+                .task {
+                    fetchCountries()
                 }
                 .onChange(of: viewModel.searchText) { oldValue, newValue in
                     if newValue.count > 1 {
@@ -21,7 +29,7 @@ struct CountryListView: View {
                     }
 
                     if newValue.isEmpty {
-                        viewModel.loadCountries()
+                        fetchCountries()
                     }
                 }
         }
@@ -38,7 +46,7 @@ struct CountryListView: View {
         case .failure:
             ErrorView(
                 errorText: "There was an error loading the countries.",
-                onButtonTap: { viewModel.loadCountries() }
+                onButtonTap: { fetchCountries() }
             )
 
         case .loading:
