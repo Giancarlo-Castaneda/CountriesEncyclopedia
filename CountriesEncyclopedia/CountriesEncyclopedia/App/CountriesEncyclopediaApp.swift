@@ -19,12 +19,12 @@ struct CountriesEncyclopediaApp: App {
                 Tab {
                     CountryListView(viewModel: CountryListViewModel(dependencies: rootDependecies))
                 } label: {
-                    Label("Search", systemImage: "magnifyingglass")
+                    Label("SEARCH_TAB_TITLE", systemImage: "magnifyingglass")
                 }
                 Tab {
                     FavoriteListView(viewModel: FavoriteListViewModel(dependencies: rootDependecies))
                 } label: {
-                    Label("Saved", systemImage: "star")
+                    Label("FAVORITES_TAB_TITLE", systemImage: "star")
                 }
             }
         }

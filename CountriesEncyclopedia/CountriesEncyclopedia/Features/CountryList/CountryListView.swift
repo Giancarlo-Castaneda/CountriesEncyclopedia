@@ -14,9 +14,9 @@ struct CountryListView: View {
     var body: some View {
         NavigationStack(path: $viewModel.routing) {
             content
-                .navigationTitle("Search")
+                .navigationTitle("SEARCH_TAB_TITLE")
                 .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
+                .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "SEARCH_PROMPT")
                 .navigationDestination(for: CountryEntity.self) { selectedCountry in
                     CountryDetailView(viewModel: viewModel.makeDetailViewModel(for: selectedCountry))
                 }
@@ -45,7 +45,7 @@ struct CountryListView: View {
 
         case .failure:
             ErrorView(
-                errorText: "There was an error loading the countries.",
+                errorText: "ERROR_FETCHING_COUNTRIES",
                 onButtonTap: { fetchCountries() }
             )
 
@@ -53,7 +53,7 @@ struct CountryListView: View {
             ProgressView()
 
         case .empty:
-            Text("There are results to show at the moment")
+            Text("ERROR_NO_COUNTRIES_FOUND")
         }
     }
 

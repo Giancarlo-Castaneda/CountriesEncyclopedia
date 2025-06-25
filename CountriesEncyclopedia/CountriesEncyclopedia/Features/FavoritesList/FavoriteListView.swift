@@ -6,9 +6,9 @@ struct FavoriteListView: View {
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle("Saved")
+                .navigationTitle("FAVORITES_TITLE")
                 .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "Search")
+                .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer, prompt: "SEARCH_PROMPT")
                 .task {
                     viewModel.fetchSavedCountries()
                 }
@@ -25,7 +25,7 @@ struct FavoriteListView: View {
 
         case .failure:
             ErrorView(
-                errorText: "There was an error loading the countries.",
+                errorText: "ERROR_FETCHING_COUNTRIES",
                 onButtonTap: { viewModel.fetchSavedCountries() }
             )
 
@@ -33,7 +33,7 @@ struct FavoriteListView: View {
             ProgressView()
 
         case .empty:
-            Text("Let's add some countries to your favorites!")
+            Text("EMPTY_FAVORITES_LIST")
         }
     }
 

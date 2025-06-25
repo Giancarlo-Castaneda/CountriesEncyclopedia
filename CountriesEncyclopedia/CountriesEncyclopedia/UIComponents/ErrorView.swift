@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct ErrorView: View {
-    let errorText: String
+    let errorText: LocalizedStringKey
     var onButtonTap: () -> Void
 
     var body: some View {
         VStack(spacing: 10) {
             Text(errorText)
             Button(action: onButtonTap) {
-                Text("Retry")
+                Text("RETRY_BUTTON_TEXT")
             }
         }
     }

@@ -70,8 +70,7 @@ struct CountryDetailView: View {
     private var titleInfoView: some View {
         HStack {
             if !viewModel.country.region.isEmpty {
-                InfoView(mainText: "Region",
-                         secondaryText: viewModel.country.region)
+                InfoView(mainText: "REGION_SECTION_TITLE", secondaryText: viewModel.country.region)
             }
 
             if !viewModel.country.region.isEmpty && !viewModel.country.subregion.isEmpty {
@@ -79,8 +78,7 @@ struct CountryDetailView: View {
             }
 
             if !viewModel.country.subregion.isEmpty {
-                InfoView(mainText: "Subregion",
-                         secondaryText: viewModel.country.subregion)
+                InfoView(mainText: "SUBREGION_SECTION_TITLE", secondaryText: viewModel.country.subregion)
             }
 
             if !viewModel.country.subregion.isEmpty && !viewModel.country.capital.isEmpty {
@@ -88,7 +86,7 @@ struct CountryDetailView: View {
             }
 
             if !viewModel.country.capital.isEmpty {
-                InfoView(mainText: "Capital", secondaryText: viewModel.country.capital)
+                InfoView(mainText: "CAPITAL_SECION_TITLE", secondaryText: viewModel.country.capital)
             }
         }
         .padding(.vertical, 10)
@@ -103,19 +101,19 @@ struct CountryDetailView: View {
 
     private var categoriesGridView: some View {
         LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
-            InfoCard(title: "Timezone(s)") {
+            InfoCard(title: "TIMEZONE_CARD_TITLE") {
                 Text(viewModel.country.formattedTimezones)
             }
-            InfoCard(title: "Population") {
+            InfoCard(title: "POPULATION_CARD_TITLE") {
                 Text(viewModel.country.population, format: .number)
             }
-            InfoCard(title: "Language(s)") {
+            InfoCard(title: "LANGUAGUE_CARD_TITLE") {
                 Text(viewModel.country.languages)
             }
-            InfoCard(title: "Currencies") {
+            InfoCard(title: "CURRENCY_CARD_TITLE") {
                 Text(viewModel.country.currenciesText)
             }
-            InfoCard(title: "Car Drive Side") {
+            InfoCard(title: "CAR_DRIVE_CARD_TITLE") {
                 HStack(spacing: 8) {
                     Text("LEFT")
                         .foregroundColor(viewModel.country.isLeftSide ? .secondary : .primary)
@@ -127,7 +125,7 @@ struct CountryDetailView: View {
                 }
             }
             if let coatURL = viewModel.country.coatAtArms {
-                InfoCard(title: "Coat of Arms") {
+                InfoCard(title: "COAT_OF_ARMS_CARD_TITLE") {
                     CoatOfArmsView(image: coatURL)
                 }
             }
@@ -160,7 +158,7 @@ struct CountryDetailView: View {
     // MARK: InfoView
 
     private struct InfoView: View {
-        let mainText: String
+        let mainText: LocalizedStringKey
         let secondaryText: String
 
         var body: some View {
